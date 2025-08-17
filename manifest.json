@@ -1,21 +1,33 @@
-{
-  "name": "StudySpark AI",
-  "short_name": "StudySpark",
-  "start_url": ".",
-  "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#06b6d4",
-  "description": "AI-powered study & notes assistant",
-  "icons": [
-    {
-      "src": "icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
+:root{
+  --bg:#0f172a; --card:#111827; --muted:#94a3b8;
+  --cyan:#06b6d4; --violet:#8b5cf6; --white:#fff; --border:#1f2937;
 }
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--white);font:16px/1.5 system-ui,Arial}
+.container{max-width:1100px;margin:0 auto;padding:24px}
+.topbar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);backdrop-filter:blur(8px);background:#0f172aE6;z-index:10}
+.brand{display:flex;gap:8px;align-items:center}.logo{filter:drop-shadow(0 0 10px #0ff8)}
+.ai{color:var(--cyan)}
+.hero{text-align:center;margin:18px 0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px}
+.grid{display:grid;grid-template-columns:1fr;gap:16px} @media(min-width:900px){.grid{grid-template-columns:1fr 1fr}}
+.label{display:block;margin-bottom:6px;color:var(--muted)}
+textarea, .input{width:100%;background:#0b1220;color:var(--white);border:1px solid var(--border);border-radius:12px;padding:10px 12px;outline:none}
+.row{display:flex;align-items:center}.space{justify-content:space-between}.gap{gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn{border:1px solid var(--border);background:#1b2434;color:#fff;border-radius:10px;padding:10px 14px;cursor:pointer}
+.btn:hover{filter:brightness(1.1)} .btn[disabled]{opacity:.5;cursor:not-allowed}
+.primary{background:color-mix(in sRGB, var(--cyan) 20%, #1b2434)} .violet{background:color-mix(in sRGB, var(--violet) 20%, #1b2434)}
+.ghost{background:transparent}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--border);margin-bottom:10px}
+.tab{background:transparent;border:1px solid var(--border);padding:6px 10px;border-radius:8px 8px 0 0;color:var(--muted);cursor:pointer}
+.tab.active{background:#0b1220;color:#fff;border-bottom-color:#0b1220}
+.panel.hidden{display:none}
+.prose{white-space:pre-wrap}
+.muted{color:var(--muted)}
+.cards{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:700px){.cards{grid-template-columns:1fr 1fr}}
+.cards .q{color:#7dd3fc;font-weight:600}
+.cards .a{margin-top:4px;color:#e5e7eb}
+.ideas{display:grid;gap:10px;margin-top:10px}
+.ideas .idea{background:#0b1220;border:1px solid var(--border);border-radius:12px;padding:10px}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+.plan{
