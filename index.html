@@ -6,16 +6,48 @@
   <title>StudySpark AI</title>
   <meta name="theme-color" content="#06b6d4" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="styles.css" />
-  <meta name="description" content="AI-powered study & notes assistant — summaries, flashcards, and startup ideas." />
+  <meta name="description" content="AI-powered study & notes assistant — summaries, flashcards, and ideas. Works offline (PWA)." />
+
+  <!-- INLINE CSS -->
+  <style>
+  :root{ --bg:#0f172a; --card:#111827; --muted:#94a3b8; --cyan:#06b6d4; --violet:#8b5cf6; --white:#fff; --border:#1f2937; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--white);font:16px/1.5 system-ui,Arial}
+  .container{max-width:1100px;margin:0 auto;padding:24px}
+  .topbar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);backdrop-filter:blur(8px);background:#0f172aE6;z-index:10}
+  .brand{display:flex;gap:8px;align-items:center}.logo{filter:drop-shadow(0 0 10px #0ff8)} .ai{color:var(--cyan)}
+  .hero{text-align:center;margin:18px 0}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px}
+  .grid{display:grid;grid-template-columns:1fr;gap:16px} @media(min-width:900px){.grid{grid-template-columns:1fr 1fr}}
+  .label{display:block;margin-bottom:6px;color:var(--muted)}
+  textarea,.input{width:100%;background:#0b1220;color:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 12px;outline:none}
+  .row{display:flex;align-items:center}.space{justify-content:space-between}.gap{gap:8px;margin-top:10px;flex-wrap:wrap}
+  .btn{border:1px solid var(--border);background:#1b2434;color:#fff;border-radius:10px;padding:10px 14px;cursor:pointer}
+  .btn:hover{filter:brightness(1.1)} .btn[disabled]{opacity:.5;cursor:not-allowed}
+  .primary{background:rgba(6,182,212,.2)} .violet{background:rgba(139,92,246,.2)} .ghost{background:transparent}
+  .tabs{display:flex;gap:6px;border-bottom:1px solid var(--border);margin-bottom:10px}
+  .tab{background:transparent;border:1px solid var(--border);padding:6px 10px;border-radius:8px 8px 0 0;color:var(--muted);cursor:pointer}
+  .tab.active{background:#0b1220;color:#fff;border-bottom-color:#0b1220}
+  .panel.hidden{display:none}
+  .prose{white-space:pre-wrap} .muted{color:var(--muted)}
+  .cards{display:grid;grid-template-columns:1fr;gap:8px} @media(min-width:700px){.cards{grid-template-columns:1fr 1fr}}
+  .cards .q{color:#7dd3fc;font-weight:600} .cards .a{margin-top:4px;color:#e5e7eb}
+  .ideas{display:grid;gap:10px;margin-top:10px} .ideas .idea{background:#0b1220;border:1px solid var(--border);border-radius:12px;padding:10px}
+  .plans{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+  .plan{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px}
+  .plan.highlight{outline:2px solid rgba(139,92,246,.5)}
+  .plan-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .badge{font-size:12px;color:var(--muted)} .badge.violet{color:#c7aefc}
+  .footer{border-top:1px solid var(--border);padding:16px;text-align:center;color:var(--muted)}
+  </style>
 </head>
 <body>
   <header class="topbar">
-    <div class="brand">
-      <span class="logo">🚀</span>
-      <strong>StudySpark <span class="ai">AI</span></strong>
+    <div class="brand"><span class="logo">🚀</span><strong>StudySpark <span class="ai">AI</span></strong></div>
+    <div class="row gap">
+      <button id="installBtn" class="btn ghost" hidden>Install App</button>
+      <button id="resetCache" class="btn ghost">Reset Cache</button>
     </div>
-    <button id="installBtn" class="btn ghost" hidden>Install App</button>
   </header>
 
   <main class="container">
@@ -43,23 +75,16 @@
         </div>
         <div id="summary" class="panel">
           <div id="summaryOut" class="prose muted">Press <b>Summarize</b> to see the result here.</div>
-          <div class="row gap">
-            <button id="copySummary" class="btn ghost" disabled>Copy</button>
-          </div>
+          <div class="row gap"><button id="copySummary" class="btn ghost" disabled>Copy</button></div>
         </div>
         <div id="cards" class="panel hidden">
           <div id="cardsOut" class="cards"></div>
-          <div class="row gap">
-            <button id="copyCards" class="btn ghost" disabled>Copy</button>
-          </div>
+          <div class="row gap"><button id="copyCards" class="btn ghost" disabled>Copy</button></div>
         </div>
       </div>
 
       <div class="card">
-        <div class="row space">
-          <h3>AI Idea Generator</h3>
-          <small class="muted">(3 micro-startup ideas)</small>
-        </div>
+        <div class="row space"><h3>AI Idea Generator</h3><small class="muted">(3 micro-startup ideas)</small></div>
         <div class="row gap">
           <input id="ideaTopic" class="input" value="medical biochemistry revision" />
           <button id="btnIdeas" class="btn violet">Generate</button>
@@ -70,39 +95,124 @@
 
     <section class="plans">
       <div class="plan">
-        <div class="plan-head">
-          <div class="title">Free</div>
-          <div class="badge">Mock</div>
-        </div>
+        <div class="plan-head"><div class="title">Free</div><div class="badge">Mock</div></div>
         <ul>
-          <li>Local mock AI</li>
-          <li>Summaries & 6 flashcards</li>
-          <li>Offline support</li>
+          <li>Local mock AI</li><li>Summaries & 6 flashcards</li><li>Offline support</li>
         </ul>
       </div>
       <div class="plan highlight">
-        <div class="plan-head">
-          <div class="title">Pro</div>
-          <div class="badge violet">Soon</div>
-        </div>
+        <div class="plan-head"><div class="title">Pro</div><div class="badge violet">Soon</div></div>
         <ul>
-          <li>Real AI endpoint</li>
-          <li>Unlimited flashcards</li>
-          <li>Export & sync</li>
+          <li>Real AI endpoint</li><li>Unlimited flashcards</li><li>Export & sync</li>
         </ul>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <span>© <span id="yy"></span> StudySpark.ai — Demo</span>
-  </footer>
+  <footer class="footer">© <span id="yy"></span> StudySpark.ai — Demo</footer>
 
-  <script src="app.js" defer></script>
+  <!-- INLINE JS -->
   <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
-    }
+  // Register SW
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js');
+
+  // Year
+  document.getElementById('yy').textContent = new Date().getFullYear();
+
+  // Tabs
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.add('hidden'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.remove('hidden');
+  }));
+  const activateTab = (id) => {
+    tabs.forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.add('hidden'));
+    document.querySelector(\`.tab[data-tab="\${id}"]\`).classList.add('active');
+    document.getElementById(id).classList.remove('hidden');
+  };
+
+  // Elements
+  const notesEl = document.getElementById('notes');
+  const sumBtn = document.getElementById('btnSum');
+  const cardsBtn = document.getElementById('btnCards');
+  const sampleBtn = document.getElementById('btnSample');
+  const clearBtn = document.getElementById('btnClear');
+  const summaryOut = document.getElementById('summaryOut');
+  const cardsOut = document.getElementById('cardsOut');
+  const copySummary = document.getElementById('copySummary');
+  const copyCards = document.getElementById('copyCards');
+
+  // Actions
+  sumBtn.onclick = () => {
+    const txt = (notesEl.value||'').trim();
+    if (!txt) return ping(summaryOut,'Paste notes first.');
+    const md = summarize(txt);
+    summaryOut.textContent = md; copySummary.disabled = false; activateTab('summary');
+  };
+  cardsBtn.onclick = () => {
+    const txt = (notesEl.value||'').trim();
+    if (!txt) return ping(cardsOut,'Paste notes first.');
+    renderCards(flashcards(txt)); copyCards.disabled = false; activateTab('cards');
+  };
+  sampleBtn.onclick = () => { notesEl.value = SAMPLE.trim(); };
+  clearBtn.onclick  = () => {
+    notesEl.value=''; summaryOut.textContent='Press **Summarize** to see the result here.';
+    cardsOut.innerHTML=''; copySummary.disabled = true; copyCards.disabled = true;
+  };
+  copySummary.onclick = () => navigator.clipboard?.writeText(summaryOut.textContent);
+  copyCards.onclick   = () => navigator.clipboard?.writeText(cardsMarkdown());
+
+  // Ideas
+  document.getElementById('btnIdeas').onclick = () => {
+    const topic = document.getElementById('ideaTopic').value.trim() || 'study tools';
+    const box = document.getElementById('ideasOut'); box.innerHTML='';
+    ideas(topic).forEach(i=>{ const d=document.createElement('div'); d.className='idea'; d.innerText=i; box.appendChild(d); });
+  };
+
+  // Install prompt
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault(); deferredPrompt = e;
+    const btn = document.getElementById('installBtn'); btn.hidden = false;
+    btn.onclick = async () => { btn.hidden=true; await deferredPrompt.prompt(); deferredPrompt=null; };
+  });
+
+  // Reset cache
+  document.getElementById('resetCache').onclick = async () => {
+    if (!confirm('Clear offline cache & reload?')) return;
+    const keys = await caches.keys(); await Promise.all(keys.map(k=>caches.delete(k)));
+    const regs = await navigator.serviceWorker.getRegistrations(); regs.forEach(r=>r.unregister());
+    location.reload(true);
+  };
+
+  // Mock AI
+  const SAMPLE = `
+Glycolysis overview —
+• Occurs in cytosol, converts glucose → 2 pyruvate, net 2 ATP + 2 NADH.
+• Key regulatory enzymes: hexokinase/glucokinase, PFK-1 (rate-limiting), pyruvate kinase.
+• PFK-1 activated by AMP, F2,6-BP; inhibited by ATP and citrate.
+• Anaerobic: pyruvate → lactate (Cori cycle); Aerobic: pyruvate → acetyl-CoA → TCA.
+• Clinical: pyruvate kinase deficiency → hemolytic anemia; thiamine deficiency impairs PDH.
+• Exams: memorize control points & energy yield variants.
+`;
+  const pickEven=(a,n)=>{if(a.length<=n)return a;const s=a.length/n;return Array.from({length:n},(_,i)=>a[Math.floor(i*s)])};
+  const clean=(s)=>s.replace(/\s+/g,' ').replace(/^[•\-*]\s*/,'').trim();
+  const toQuestion=(s)=>/ is | are | refers | means | leads | causes /i.test(s)?s.replace(/\s*\.$/,'').replace(/\bis\b/i,'does'):`Explain: ${s.replace(/\s*\.$/,'')}`;
+  function summarize(text){const list=text.replace(/\n+/g,' ').split(/[.!؟?]\s+/).filter(Boolean);const n=Math.min(8,Math.max(4,Math.ceil(list.length/3)));return '## Quick Summary\n'+pickEven(list,n).map(s=>'- '+clean(s)+'.').join('\n');}
+  function flashcards(text){const s=text.split(/[.!؟?]\s+/).filter(x=>x.trim().length>25);return pickEven(s,6).map(t=>{const st=clean(t);const a=st.split(/[:,;-]\s/)[0]||st.slice(0,90);return [toQuestion(st),a];});}
+  function renderCards(pairs){cardsOut.innerHTML='';pairs.forEach((p,i)=>{const d=document.createElement('div');d.className='card';d.innerHTML=`<div class="q">Q${i+1}. ${escapeHtml(p[0])}</div><div class="a">A${i+1}. ${escapeHtml(p[1])}</div>`;cardsOut.appendChild(d);});}
+  function cardsMarkdown(){return [...cardsOut.querySelectorAll('.card')].map((n,i)=>{const q=n.querySelector('.q').textContent.replace(/^Q\d+\.\s*/,'');const a=n.querySelector('.a').textContent.replace(/^A\d+\.\s*/,'');return `**Q${i+1}. ${q}**\nA${i+1}. ${a}`;}).join('\n\n');}
+  function ideas(topic){const t=topic.slice(0,100);return [1,2,3].map(i=>`Idea ${i}: ${t[0]?.toUpperCase()+t.slice(1)} AI\nOne-liner: An AI that optimizes ${t} workflows.\nFeatures: smart extraction, auto-summaries, export.\nUsers: students, researchers, busy professionals.`);}
+  const escapeHtml=(s)=>s.replace(/[&<>"]/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' })[m]);
+  const ping=(el,msg)=>{el.textContent=msg;setTimeout(()=>el.textContent='',1200);};
+
+  // optional: auto-save notes
+  const KEY='studyspark_notes_v1';
+  notesEl.value = localStorage.getItem(KEY) || notesEl.value;
+  notesEl.addEventListener('input', ()=>localStorage.setItem(KEY, notesEl.value));
   </script>
 </body>
 </html>
