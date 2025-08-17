@@ -2,20 +2,27 @@
   --bg:#0f172a; --card:#111827; --muted:#94a3b8;
   --cyan:#06b6d4; --violet:#8b5cf6; --white:#fff; --border:#1f2937;
 }
-*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--white);font:16px/1.5 system-ui,Arial}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--white);font:16px/1.5 system-ui,Arial}
 .container{max-width:1100px;margin:0 auto;padding:24px}
 .topbar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);backdrop-filter:blur(8px);background:#0f172aE6;z-index:10}
-.brand{display:flex;gap:8px;align-items:center}.logo{filter:drop-shadow(0 0 10px #0ff8)}
+.brand{display:flex;gap:8px;align-items:center}
+.logo{filter:drop-shadow(0 0 10px #0ff8)}
 .ai{color:var(--cyan)}
 .hero{text-align:center;margin:18px 0}
 .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px}
-.grid{display:grid;grid-template-columns:1fr;gap:16px} @media(min-width:900px){.grid{grid-template-columns:1fr 1fr}}
+.grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:900px){.grid{grid-template-columns:1fr 1fr}}
 .label{display:block;margin-bottom:6px;color:var(--muted)}
-textarea, .input{width:100%;background:#0b1220;color:var(--white);border:1px solid var(--border);border-radius:12px;padding:10px 12px;outline:none}
-.row{display:flex;align-items:center}.space{justify-content:space-between}.gap{gap:8px;margin-top:10px;flex-wrap:wrap}
+textarea,.input{width:100%;background:#0b1220;color:var(--white);border:1px solid var(--border);border-radius:12px;padding:10px 12px;outline:none}
+.row{display:flex;align-items:center}
+.space{justify-content:space-between}
+.gap{gap:8px;margin-top:10px;flex-wrap:wrap}
 .btn{border:1px solid var(--border);background:#1b2434;color:#fff;border-radius:10px;padding:10px 14px;cursor:pointer}
-.btn:hover{filter:brightness(1.1)} .btn[disabled]{opacity:.5;cursor:not-allowed}
-.primary{background:color-mix(in sRGB, var(--cyan) 20%, #1b2434)} .violet{background:color-mix(in sRGB, var(--violet) 20%, #1b2434)}
+.btn:hover{filter:brightness(1.1)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.primary{background:rgba(6,182,212,.2)}
+.violet{background:rgba(139,92,246,.2)}
 .ghost{background:transparent}
 .tabs{display:flex;gap:6px;border-bottom:1px solid var(--border);margin-bottom:10px}
 .tab{background:transparent;border:1px solid var(--border);padding:6px 10px;border-radius:8px 8px 0 0;color:var(--muted);cursor:pointer}
@@ -29,5 +36,13 @@ textarea, .input{width:100%;background:#0b1220;color:var(--white);border:1px sol
 .cards .a{margin-top:4px;color:#e5e7eb}
 .ideas{display:grid;gap:10px;margin-top:10px}
 .ideas .idea{background:#0b1220;border:1px solid var(--border);border-radius:12px;padding:10px}
+
+/* التسعير */
 .plans{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
-.plan{
+.plan{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px}
+.plan.highlight{outline:2px solid rgba(139,92,246,.5)}
+.plan-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.badge{font-size:12px;color:var(--muted)}
+.badge.violet{color:#c7aefc}
+
+.footer{border-top:1px solid var(--border);padding:16px;text-align:center;color:var(--muted)}
