@@ -2,47 +2,107 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>StudySpark AI</title>
-
-  <!-- Manifest -->
-  <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#06b6d4" />
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-      margin: 0;
-      padding: 2rem;
-      text-align: center;
-    }
-    h1 {
-      color: #06b6d4;
-    }
-    button {
-      background: #06b6d4;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      color: white;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-  </style>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="description" content="AI-powered study & notes assistant — summaries, flashcards, and startup ideas." />
 </head>
 <body>
-  <h1>🚀 StudySpark AI</h1>
-  <p>Smart study assistant powered by AI</p>
-  <button onclick="alert('✨ Mock AI: Your notes summarized!')">
-    Summarize Notes
-  </button>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">🚀</span>
+      <strong>StudySpark <span class="ai">AI</span></strong>
+    </div>
+    <button id="installBtn" class="btn ghost" hidden>Install App</button>
+  </header>
 
+  <main class="container">
+    <section class="hero">
+      <h1>Study smarter, faster.</h1>
+      <p>Paste notes → get <b>Summaries</b>, <b>Flashcards</b>, and <b>Ideas</b>. Works offline (PWA).</p>
+    </section>
+
+    <section class="card">
+      <label for="notes" class="label">Your notes</label>
+      <textarea id="notes" rows="10" placeholder="Paste your notes here..."></textarea>
+      <div class="row gap">
+        <button id="btnSum"   class="btn primary">Summarize</button>
+        <button id="btnCards" class="btn violet">Flashcards</button>
+        <button id="btnSample" class="btn ghost">Sample</button>
+        <button id="btnClear"  class="btn ghost">Clear</button>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <div class="tabs">
+          <button class="tab active" data-tab="summary">Summary</button>
+          <button class="tab" data-tab="cards">Cards</button>
+        </div>
+        <div id="summary" class="panel">
+          <div id="summaryOut" class="prose muted">Press <b>Summarize</b> to see the result here.</div>
+          <div class="row gap">
+            <button id="copySummary" class="btn ghost" disabled>Copy</button>
+          </div>
+        </div>
+        <div id="cards" class="panel hidden">
+          <div id="cardsOut" class="cards"></div>
+          <div class="row gap">
+            <button id="copyCards" class="btn ghost" disabled>Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row space">
+          <h3>AI Idea Generator</h3>
+          <small class="muted">(3 micro-startup ideas)</small>
+        </div>
+        <div class="row gap">
+          <input id="ideaTopic" class="input" value="medical biochemistry revision" />
+          <button id="btnIdeas" class="btn violet">Generate</button>
+        </div>
+        <div id="ideasOut" class="ideas"></div>
+      </div>
+    </section>
+
+    <section class="plans">
+      <div class="plan">
+        <div class="plan-head">
+          <div class="title">Free</div>
+          <div class="badge">Mock</div>
+        </div>
+        <ul>
+          <li>Local mock AI</li>
+          <li>Summaries & 6 flashcards</li>
+          <li>Offline support</li>
+        </ul>
+      </div>
+      <div class="plan highlight">
+        <div class="plan-head">
+          <div class="title">Pro</div>
+          <div class="badge violet">Soon</div>
+        </div>
+        <ul>
+          <li>Real AI endpoint</li>
+          <li>Unlimited flashcards</li>
+          <li>Export & sync</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="yy"></span> StudySpark.ai — Demo</span>
+  </footer>
+
+  <script src="app.js" defer></script>
   <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js");
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
     }
   </script>
 </body>
-  </html>
+</html>
